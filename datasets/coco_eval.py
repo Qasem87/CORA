@@ -35,11 +35,8 @@ class CocoEvaluator(object):
             self.coco_eval[iou_type] = COCOeval(coco_gt, iouType=iou_type)
             
         self.label2catid = label2cat
-        self.base_catids = [\
-            70, 2, 53, 7, 73, 57, 4, 79, 62, 74, 9, 38, 20, 19, 54, 85, \
-            72, 27, 80, 51, 78, 15, 84, 55, 16, 59, 48, 34, 23, 86, 90, 50, \
-            25, 31, 56, 82, 75, 42, 3, 65, 52, 60, 35, 1, 8, 44, 33, 24]
-        self.target_catids = [28, 21, 47, 6, 76, 41, 18, 63, 32, 36, 81, 22, 61, 87, 5, 17, 49]
+        self.base_catids = [1,2]
+        self.target_catids = [3]
 
         self.img_ids = []
         self.eval_imgs = {k: [] for k in iou_types}
