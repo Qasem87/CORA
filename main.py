@@ -310,11 +310,20 @@ def main(args):
             checkpoint = torch.hub.load_state_dict_from_url(args.resume, map_location='cpu', check_hash=True)
         else:
             checkpoint = torch.load(args.resume, map_location='cpu')
-        model_without_ddp.load_state_dict(checkpoint['model'])
+        if "query_embed.weight" in checkpoint["model"]:
+            pretrained_queries = checkpoint["model"]["query_embed.weight"]
+            current_queries = model_without_ddp.query_embed.weight.shape[0]
+            if pretrained_queries.shape[0] != current_queries:
+                #print(f"?? Removing query_embed.weight from checkpoint: {pretrained_queries.shape[0]} ? {current_queries}")
+                del checkpoint["model"]["query_embed.weight"]
+
+        model_without_ddp.load_state_dict(checkpoint['model'],strict=False)
+        
+
         if not args.eval and 'optimizer' in checkpoint and 'lr_scheduler' in checkpoint and 'epoch' in checkpoint:
-            optimizer.load_state_dict(checkpoint['optimizer'])
+            #optimizer.load_state_dict(checkpoint['optimizer'])
             lr_scheduler.load_state_dict(checkpoint['lr_scheduler'])
-            args.start_epoch = checkpoint['epoch'] + 1
+            #args.start_epoch = checkpoint['epoch'] + 1
         if 'best_performance' in checkpoint:
             best_performance = checkpoint['best_performance']
         if 'model_ema'in checkpoint and model_ema is not None:
