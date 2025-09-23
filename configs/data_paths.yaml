@@ -1,0 +1,15 @@
+data_root: "/mnt/ceph/alha0230/Rodent/coco"
+
+train:
+  images: "train2017"
+  ann: "annotations/instances_train2017_base.json"
+
+val:
+  images: "val2017"
+  ann: "annotations/instances_val2017_basetarget.json"
+
+loader:
+  batch_size: 4
+  num_workers: 1
+  image_size: 640
+  seed: 1337
