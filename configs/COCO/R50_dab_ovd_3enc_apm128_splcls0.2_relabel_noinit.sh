@@ -10,7 +10,7 @@ args=" \
 --backbone clip_RN50 \
 --text_len 15 \
 --ovd \
---region_prompt_path logs/region_prompt_R50.pth \
+--region_prompt_path /mnt/ceph/alha0230/Rodent/OVOD/CORA/RP.pth \
 --save_every_epoch 50 \
 --dim_feedforward 1024 \
 --use_nms \
@@ -22,12 +22,9 @@ args=" \
 --text_dim 1024 \
 --condition_bottleneck 128 \
 --split_class_p 0.2 \
---model_ema \
---model_ema_decay 0.99996 \
 --save_best \
---label_version RN50base \
 --disable_init \
---target_class_factor 8 \
+
 "
 
 eval "$header$args$extra_args 2>&1 | tee -a $work_dir/exp_$now.txt"
